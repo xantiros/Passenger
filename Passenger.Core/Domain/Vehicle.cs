@@ -8,7 +8,12 @@ namespace Passenger.Core.Domain
         public string Name { get; protected set; }
         public int Seats { get; protected set; }
 
-        public Vehicle(string brand, string name, int seats)
+        protected Vehicle()
+        {
+
+        }
+
+        protected Vehicle(string brand, string name, int seats)
         {
             SetBrand(brand);
             SetName(name);
@@ -41,5 +46,8 @@ namespace Passenger.Core.Domain
                 throw new Exception("Please provide valid seats");
             Seats = seats;
         }
+
+        public static Vehicle Create(string brand, string name, int seats)
+            => new Vehicle(brand, name, seats);
     }
 }
