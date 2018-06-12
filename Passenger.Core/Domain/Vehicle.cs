@@ -10,7 +10,6 @@ namespace Passenger.Core.Domain
 
         protected Vehicle()
         {
-
         }
 
         protected Vehicle(string brand, string name, int seats)
