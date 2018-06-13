@@ -12,7 +12,7 @@ namespace Passenger.Tests.Services
     public class UserServiceTests
     {
         [Fact]
-        public async Task Test()
+        public async Task Register_async_should_invoike_add_async_on_repository()
         {
             //mock - biblioteka do mockowania - tworznie obiektów przez biblioteke
             var userRepositoryMock = new Mock<IUserRepository>();
