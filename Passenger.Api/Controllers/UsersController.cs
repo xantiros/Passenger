@@ -17,12 +17,23 @@ namespace Passenger.Api.Controllers
         }
 
         [HttpGet("{email}")]
-        public async Task<UserDto> Get(string email)
-            => await _userService.GetAsync(email);
+        public async Task<IActionResult> Get(string email)
+        {
+            var user = await _userService.GetAsync(email); //kod http 404
+            if(user == null)
+            {
+                return NotFound();
+            }
+            return Json(user);
+        }
 
         [HttpPost("")] // /users
-        public async Task Post([FromBody] CreateUser createUser)
-            => await _userService.RegisterAsync(createUser.Email, createUser.Username, createUser.Password);
-        
+        public async Task<IActionResult> Post([FromBody] CreateUser createUser) //kod 201
+        {
+            await _userService.RegisterAsync(createUser.Email, createUser.Username, createUser.Password);
+
+            return Created($"users/{createUser.Email}", new object());
+        }
+            
     }
 }
