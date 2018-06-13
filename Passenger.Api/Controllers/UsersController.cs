@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Users;
 using Passenger.Infrastructure.DTO;
 using Passenger.Infrastructure.Services;
@@ -10,10 +11,12 @@ namespace Passenger.Api.Controllers
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ICommandDispatcher _commandDispatcher;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, ICommandDispatcher commandDispatcher)
         {
             _userService = userService;
+            _commandDispatcher = commandDispatcher;
         }
 
         [HttpGet("{email}")]
@@ -30,8 +33,8 @@ namespace Passenger.Api.Controllers
         [HttpPost("")] // /users
         public async Task<IActionResult> Post([FromBody] CreateUser createUser) //kod 201
         {
-            await _userService.RegisterAsync(createUser.Email, createUser.Username, createUser.Password);
-
+            await _commandDispatcher.DispatchAsync(createUser);
+            //await _userService.RegisterAsync(createUser.Email, createUser.Username, createUser.Password);
             return Created($"users/{createUser.Email}", new object());
         }
             
