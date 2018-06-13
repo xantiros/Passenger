@@ -12,10 +12,9 @@ namespace Passenger.Infrastructure.Services
         private readonly IDriverRepository _driverRepository;
         private readonly IMapper _mapper;
 
-        public DriverService(IDriverRepository driverRepository, IMapper mapper)
+        public DriverService(IDriverRepository driverRepository)
         {
             _driverRepository = driverRepository;
-            _mapper = mapper;
         }
 
         public async Task<DriverDto> GetAsync(Guid userId)
