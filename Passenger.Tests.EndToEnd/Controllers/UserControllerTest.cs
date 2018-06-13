@@ -29,12 +29,7 @@ namespace Passenger.Tests.EndToEnd.Controllers
         public async Task given_walid_email_user_should_exist()
         {
             var email = "user1@gmail.com";
-            var response = await _client.GetAsync($"users/{email}");
-            response.EnsureSuccessStatusCode();
-
-            var responseString = await response.Content.ReadAsStringAsync();
-            var user = JsonConvert.DeserializeObject<UserDto>(responseString);
-
+            var user = await GetUserAsync(email);
             user.Email.Should().BeEquivalentTo(email);
         }
 
@@ -60,12 +55,17 @@ namespace Passenger.Tests.EndToEnd.Controllers
             var response = await _client.PostAsync($"users", payload);
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
             response.Headers.Location.ToString().Should().BeEquivalentTo($"users/{request.Email}");
+
+            var user = await GetUserAsync(request.Email);
+            user.Email.Should().BeEquivalentTo(request.Email);
         }
 
         private async Task<UserDto> GetUserAsync(string email)
         {
             var response = await _client.GetAsync($"users/{email}");
+            response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
+
             return JsonConvert.DeserializeObject<UserDto>(responseString);
         }
 
