@@ -13,7 +13,6 @@ namespace Passenger.Core.Domain
 
         protected Driver()
         {
-
         }
 
         public Driver (Guid userId)
