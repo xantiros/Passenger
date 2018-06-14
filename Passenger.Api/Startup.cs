@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Passenger.Core.Repositories;
+using Passenger.Infrastructure.IoC.Modules;
 using Passenger.Infrastructure.Mappers;
 using Passenger.Infrastructure.Repositories;
 using Passenger.Infrastructure.Services;
@@ -19,11 +20,11 @@ namespace Passenger.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        /*public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
+        */
         public IConfiguration Configuration { get; }
 
         public IContainer ApplicationContainer { get; private set; }
@@ -48,6 +49,7 @@ namespace Passenger.Api
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
+            builder.RegisterModule<CommandModule>();
             ApplicationContainer = builder.Build();
 
             return new AutofacServiceProvider(ApplicationContainer);

@@ -44,20 +44,19 @@ namespace Passenger.Tests.EndToEnd.Controllers
         [Fact]
         public async Task given_unique_email_user_should_be_created()
         {
-            var request = new CreateUser
+            var command = new CreateUser
             {
-                Email = "test123@gmail.com",
+                Email = "test@email.com",
                 Username = "test",
                 Password = "secret"
             };
-
-            var payload = GetPayload(request);
-            var response = await _client.PostAsync($"users", payload);
+            var payload = GetPayload(command);
+            var response = await _client.PostAsync("users", payload);
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
-            response.Headers.Location.ToString().Should().BeEquivalentTo($"users/{request.Email}");
+            response.Headers.Location.ToString().Should().BeEquivalentTo($"users/{command.Email}");
 
-            var user = await GetUserAsync(request.Email);
-            user.Email.Should().BeEquivalentTo(request.Email);
+            var user = await GetUserAsync(command.Email);
+            user.Email.Should().BeEquivalentTo(command.Email);
         }
 
         private async Task<UserDto> GetUserAsync(string email)

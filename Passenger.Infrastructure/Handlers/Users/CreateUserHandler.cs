@@ -15,9 +15,9 @@ namespace Passenger.Infrastructure.Handlers.Users
             _userService = userService;
         }
 
-        public Task HandleAsync(CreateUser command)
+        public async Task HandleAsync(CreateUser command)
         {
-            throw new NotImplementedException();
+            await _userService.RegisterAsync(command.Email, command.Username, command.Password);
         }
     }
 }
