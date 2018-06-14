@@ -12,7 +12,7 @@ namespace Passenger.Infrastructure.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper) //konstruktor, na wejscie dajemy repozytorium, wstrzykujemy mappera
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -22,18 +22,19 @@ namespace Passenger.Infrastructure.Services
         {
             var user = await _userRepository.GetAsync(email);
 
-            return _mapper.Map<User, UserDto>(user); //mapowanie usera na userdto (argument - źródło = user)
+            return _mapper.Map<User, UserDto>(user);
         }
-        public async Task RegisterAsync(string email, string username, string password)
+
+        public async Task RegisterAsync(string email, string username, string password, string role)
         {
             var user = await _userRepository.GetAsync(email);
-            if(user != null)
+            if (user != null)
             {
-                throw new Exception($"User with email: {email} already exists...");
+                throw new Exception($"User with email: '{email}' already exists.");
             }
 
             var salt = Guid.NewGuid().ToString("N");
-            user = new User(email, username, password, salt);
+            user = new User(email, username, password, role, salt);
             await _userRepository.AddAsync(user);
         }
     }

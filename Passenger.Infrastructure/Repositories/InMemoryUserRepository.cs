@@ -12,9 +12,9 @@ namespace Passenger.Infrastructure.Repositories
     {
         private static ISet<User> _users = new HashSet<User>() //kolekcja które implementuje IEnumerable, ISet - zbór zawierający unikalne elementy
         { //tylko unikalne elementy
-            new User("user1@gmail.com", "user1", "secret", "salt"),
-            new User("user2@gmail.com", "user2", "secret", "salt"),
-            new User("user3@gmail.com", "user3", "secret", "salt")
+            new User("user1@gmail.com", "user1", "secret", "user", "salt"),
+            new User("user2@gmail.com", "user2", "secret", "user", "salt"),
+            new User("user3@gmail.com", "user3", "secret", "user", "salt")
         };
 
         public async Task<User> GetAsync(Guid id)

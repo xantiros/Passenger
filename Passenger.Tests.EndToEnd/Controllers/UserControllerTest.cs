@@ -13,18 +13,8 @@ using Xunit;
 
 namespace Passenger.Tests.EndToEnd.Controllers
 {
-    public class UserControllerTest
+    public class UserControllerTest : ControllerTestBase
     {
-        private readonly TestServer _server;
-        private readonly HttpClient _client;
-
-        public UserControllerTest()
-        {
-            _server = new TestServer(new WebHostBuilder()
-                .UseStartup<Startup>());
-            _client = _server.CreateClient();
-        }
-
         [Fact]
         public async Task given_walid_email_user_should_exist()
         {
@@ -37,7 +27,7 @@ namespace Passenger.Tests.EndToEnd.Controllers
         public async Task given_walid_email_user_should_not_exist()
         {
             var email = "user100@gmail.com";
-            var response = await _client.GetAsync($"users/{email}");
+            var response = await Client.GetAsync($"users/{email}");
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NotFound);
         }
 
@@ -51,7 +41,7 @@ namespace Passenger.Tests.EndToEnd.Controllers
                 Password = "secret"
             };
             var payload = GetPayload(command);
-            var response = await _client.PostAsync("users", payload);
+            var response = await Client.PostAsync("users", payload);
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
             response.Headers.Location.ToString().Should().BeEquivalentTo($"users/{command.Email}");
 
@@ -61,19 +51,11 @@ namespace Passenger.Tests.EndToEnd.Controllers
 
         private async Task<UserDto> GetUserAsync(string email)
         {
-            var response = await _client.GetAsync($"users/{email}");
+            var response = await Client.GetAsync($"users/{email}");
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<UserDto>(responseString);
-        }
-
-        //pomocnicza metoda
-        private static StringContent GetPayload(object data)
-        {
-            var json = JsonConvert.SerializeObject(data);
-
-            return new StringContent(json, Encoding.UTF8, "application/json");
         }
     }
 }

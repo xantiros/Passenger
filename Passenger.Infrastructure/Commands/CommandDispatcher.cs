@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 
-
 namespace Passenger.Infrastructure.Commands
 {
     public class CommandDispatcher : ICommandDispatcher

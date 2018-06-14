@@ -21,7 +21,7 @@ namespace Passenger.Core.Domain
         }
 
         public User(string email, string username,
-            string password, string salt)
+            string password, string role, string salt)
         {
             Id = Guid.NewGuid();
             Email = email.ToLowerInvariant();
