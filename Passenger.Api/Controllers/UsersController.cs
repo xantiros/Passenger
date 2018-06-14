@@ -2,6 +2,7 @@
 using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Users;
 using Passenger.Infrastructure.Services;
+using Passenger.Infrastructure.Settings;
 using System.Threading.Tasks;
 
 namespace Passenger.Api.Controllers
@@ -12,7 +13,7 @@ namespace Passenger.Api.Controllers
         private readonly IUserService _userService;
 
         public UsersController(IUserService userService, 
-            ICommandDispatcher commandDispatcher) : base(commandDispatcher)
+            ICommandDispatcher commandDispatcher, GeneralSettings generalSettings) : base(commandDispatcher)
         {
             _userService = userService;
         }
