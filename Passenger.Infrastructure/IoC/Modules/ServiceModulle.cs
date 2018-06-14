@@ -17,6 +17,10 @@ namespace Passenger.Infrastructure.IoC.Modules
                    .AsImplementedInterfaces()
                    .InstancePerLifetimeScope();
 
+            builder.RegisterType<Encrypter>()
+                   .As<IEncrypter>()
+                   .SingleInstance();
+
         }
         //base Load(builder);
     }
