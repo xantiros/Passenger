@@ -6,7 +6,6 @@ using Passenger.Core.Repositories;
 using Moq; //moq - nuget zainstalowany 
 using AutoMapper;
 using Passenger.Core.Domain;
-using System;
 
 namespace Passenger.Tests.Services
 {
@@ -17,8 +16,9 @@ namespace Passenger.Tests.Services
         {
             //mock - biblioteka do mockowania - tworznie obiektów przez biblioteke
             var userRepositoryMock = new Mock<IUserRepository>();
+            var encrypter = new Encrypter();
             var mapperMock = new Mock<IMapper>();
-            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
+            var userService = new UserService(userRepositoryMock.Object, encrypter, mapperMock.Object);
             await userService.RegisterAsync("user@gmail.com", "user", "user", "secret");
 
             userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
@@ -29,9 +29,10 @@ namespace Passenger.Tests.Services
         public async Task when_calling_get_async_and_user_exists_it_should_invoke_user_repository_get_async()
         {
             var userRepositoryMock = new Mock<IUserRepository>();
+            var encrypter = new Encrypter();
             var mapperMock = new Mock<IMapper>();
 
-            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
+            var userService = new UserService(userRepositoryMock.Object, encrypter, mapperMock.Object);
             await userService.GetAsync("user1@email.com");
 
             var user = new User("user1@email.com", "user1", "secret", "user", "salt");
@@ -46,9 +47,10 @@ namespace Passenger.Tests.Services
         public async Task when_calling_get_async_and_user_does_not_exist_it_should_invoke_user_repository_get_async()
         {
             var userRepositoryMock = new Mock<IUserRepository>();
+            var encrypter = new Encrypter();
             var mapperMock = new Mock<IMapper>();
 
-            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
+            var userService = new UserService(userRepositoryMock.Object, encrypter, mapperMock.Object);
             await userService.GetAsync("user@email.com");
 
             userRepositoryMock.Setup(x => x.GetAsync("user@email.com"))

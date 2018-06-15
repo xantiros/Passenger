@@ -1,11 +1,13 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Passenger.Core.Repositories;
 using Passenger.Infrastructure.IoC;
 using Passenger.Infrastructure.IoC.Modules;
@@ -46,6 +48,22 @@ namespace Passenger.Api
             builder.Populate(services);
             builder.RegisterModule(new ContainerModule(Configuration));
             ApplicationContainer = builder.Build();
+
+            services.AddAuthorization(x => x.AddPolicy("admin", p => p.RequireRole("admin")));
+            services.AddMemoryCache();
+
+            services.AddAuthentication()
+                .AddJwtBearer();
+
+            //var jwtSettings = services.ApplicationServices.GetService<jwtSettings>;
+
+            TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidIssuer = "http:localhost:5000",
+                ValidateAudience = false
+                //IssuerSigningKey = 
+            };
+
 
             return new AutofacServiceProvider(ApplicationContainer);
         }

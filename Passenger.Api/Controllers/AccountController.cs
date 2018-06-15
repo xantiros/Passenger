@@ -15,7 +15,7 @@ namespace Passenger.Api.Controllers
         [Route("password")]
         public async Task<IActionResult> Post([FromBody] ChangeUserPassword createUser) 
         {
-            await CommandDispatcher.DispatchAsync(createUser);
+            await DispatchAsync(createUser);
             return NoContent(); //204 - operacja sie powiodła
         }
     }

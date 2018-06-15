@@ -32,7 +32,7 @@ namespace Passenger.Api.Controllers
         [HttpPost("")] // /users
         public async Task<IActionResult> Post([FromBody] CreateUser createUser) //kod 201
         {
-            await CommandDispatcher.DispatchAsync(createUser);
+            await DispatchAsync(createUser);
             //await _userService.RegisterAsync(createUser.Email, createUser.Username, createUser.Password);
             return Created($"users/{createUser.Email}", new object());
         }
