@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Passenger.Core.Domain;
@@ -10,17 +11,37 @@ namespace Passenger.Infrastructure.Services
     public class DriverService : IDriverService
     {
         private readonly IDriverRepository _driverRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public DriverService(IDriverRepository driverRepository, IMapper mapper)
+        public DriverService(IDriverRepository driverRepository, IUserRepository userRepository, IMapper mapper)
         {
             _driverRepository = driverRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
-        public Task CreateAsync(Guid userId)
+        public async Task<IEnumerable<DriverDto>> BrowseAsync()
         {
-            throw new NotImplementedException();
+            var drivers = await _driverRepository.BrowseAsync();
+
+            return _mapper.Map<IEnumerable<Driver>, IEnumerable<DriverDto>>(drivers);
+        }
+
+        public async Task CreateAsync(Guid userId)
+        {
+            var user = await _userRepository.GetAsync(userId);
+            if(user == null)
+            {
+                throw new Exception($"User with id: {userId} was not found.");
+            }
+            var driver = await _driverRepository.GetAsync(userId);
+            if (driver != null)
+            {
+                throw new Exception($"Driver with id: {userId} already exitst.");
+            }
+            driver = new Driver(user);
+            await _driverRepository.AddAsync(driver);
         }
 
         public Task DeleteAsync(Guid userId)
@@ -35,9 +56,15 @@ namespace Passenger.Infrastructure.Services
             return _mapper.Map<Driver, DriverDto>(driver);
         }
 
-        public Task SetVehicle(Guid userId, string brand, string name)
+        public async Task SetVehicleAsync(Guid userId, string brand, string name, int seats)
         {
-            throw new NotImplementedException();
+            var driver = await _driverRepository.GetAsync(userId);
+            if (driver == null)
+            {
+                throw new Exception($"Driver with id: {userId} was not found.");
+            }
+            driver.SetVehicleAsync(brand, name, seats);
+            await _driverRepository.UpdateAsync(driver);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Passenger.Infrastructure.Repositories
             await Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> BrowseAsync()
             => await Task.FromResult(_users);
 
         public async Task RemoveAsync(Guid id)
