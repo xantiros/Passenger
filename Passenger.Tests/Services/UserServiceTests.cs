@@ -6,6 +6,7 @@ using Passenger.Core.Repositories;
 using Moq; //moq - nuget zainstalowany 
 using AutoMapper;
 using Passenger.Core.Domain;
+using System;
 
 namespace Passenger.Tests.Services
 {
@@ -19,7 +20,7 @@ namespace Passenger.Tests.Services
             var encrypter = new Encrypter();
             var mapperMock = new Mock<IMapper>();
             var userService = new UserService(userRepositoryMock.Object, encrypter, mapperMock.Object);
-            await userService.RegisterAsync("user@gmail.com", "user", "user", "secret");
+            await userService.RegisterAsync(Guid.NewGuid(),"user@gmail.com", "user", "user", "secret");
 
             userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
 
@@ -35,7 +36,7 @@ namespace Passenger.Tests.Services
             var userService = new UserService(userRepositoryMock.Object, encrypter, mapperMock.Object);
             await userService.GetAsync("user1@email.com");
 
-            var user = new User("user1@email.com", "user1", "secret", "user", "salt");
+            var user = new User(Guid.NewGuid(), "user1@email.com", "user1", "secret", "user", "salt");
 
             userRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>()))
                               .ReturnsAsync(user);

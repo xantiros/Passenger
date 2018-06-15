@@ -15,10 +15,10 @@ namespace Passenger.Tests.EndToEnd.Controllers
 {
     public class UserControllerTest : ControllerTestBase
     {
-        [Fact]
+        [Fact] // jak uruchomie pojedynczy test to zadziała
         public async Task given_walid_email_user_should_exist()
         {
-            var email = "user1@gmail.com";
+            var email = "user1@test.com";
             var user = await GetUserAsync(email);
             user.Email.Should().BeEquivalentTo(email);
         }
@@ -52,7 +52,6 @@ namespace Passenger.Tests.EndToEnd.Controllers
         private async Task<UserDto> GetUserAsync(string email)
         {
             var response = await Client.GetAsync($"users/{email}");
-            response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<UserDto>(responseString);

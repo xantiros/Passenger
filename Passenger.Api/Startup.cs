@@ -14,6 +14,7 @@ using Passenger.Infrastructure.IoC.Modules;
 using Passenger.Infrastructure.Mappers;
 using Passenger.Infrastructure.Repositories;
 using Passenger.Infrastructure.Services;
+using Passenger.Infrastructure.Settings;
 
 namespace Passenger.Api
 {
@@ -75,6 +76,12 @@ namespace Passenger.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
+            if(generalSettings.SeedData)
+            {
+                var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
+                dataInitializer.SeedAsync();
+            }
             app.UseMvc();
             applicationLifetime.ApplicationStopped.Register(() => ApplicationContainer.Dispose());
         }
