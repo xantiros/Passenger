@@ -9,12 +9,15 @@ namespace Passenger.Infrastructure.Services
     {
         private readonly IUserService _userService;
         private readonly IDriverService _driverService;
+        private readonly IDriverRouteService _driverRouteService;
         private readonly ILogger<DataInitializer> _logger;
 
-        public DataInitializer(IUserService userService, IDriverService driverService, ILogger<DataInitializer> logger)
+        public DataInitializer(IUserService userService, IDriverService driverService, 
+            IDriverRouteService driverRouteService, ILogger<DataInitializer> logger)
         {
             _userService = userService;
             _driverService = driverService;
+            _driverRouteService = driverRouteService;
             _logger = logger;
         }
 
@@ -33,6 +36,10 @@ namespace Passenger.Infrastructure.Services
                 tasks.Add(_driverService.SetVehicleAsync(userId, "BMW", "M3"));
                 _logger.LogTrace($"Created a new driver for: '{username}'.");
                 System.Diagnostics.Debug.WriteLine($"Created a new driver for: '{username}'.");
+
+                tasks.Add(_driverRouteService.AddAsync(userId, "Work", 1, 1, 2, 2));
+                tasks.Add(_driverRouteService.AddAsync(userId, "Home", 3, 1, 5, 2));
+
             }
             for (int i = 0; i <= 2; i++)
             {

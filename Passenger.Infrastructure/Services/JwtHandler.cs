@@ -9,7 +9,7 @@ using Passenger.Infrastructure.Settings;
 
 namespace Passenger.Infrastructure.Services
 {
-    public class JwtHandler : IJwtHandler
+    public class JwtHandler : IJwtHandler //ok
     {
         private readonly JwtSettings _settings;
 
