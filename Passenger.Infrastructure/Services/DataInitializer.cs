@@ -27,20 +27,24 @@ namespace Passenger.Infrastructure.Services
                 var userId = Guid.NewGuid();
                 var username = $"user{i}";
                 _logger.LogTrace($"Created a new user: '{username}'.");
+                System.Diagnostics.Debug.WriteLine($"Created a new user: '{username}'.");
                 tasks.Add(_userService.RegisterAsync(userId, $"{username}@test.com", username, "secret", "user"));
                 tasks.Add(_driverService.CreateAsync(userId));
-                tasks.Add(_driverService.SetVehicleAsync(userId, "BMW", "M3", 2));
+                tasks.Add(_driverService.SetVehicleAsync(userId, "BMW", "M3"));
                 _logger.LogTrace($"Created a new driver for: '{username}'.");
+                System.Diagnostics.Debug.WriteLine($"Created a new driver for: '{username}'.");
             }
             for (int i = 0; i <= 2; i++)
             {
                 var userId = Guid.NewGuid();
                 var username = $"admin{i}";
                 _logger.LogTrace($"Created a new user: '{username}'.");
+                System.Diagnostics.Debug.WriteLine($"Created a new user: '{username}'.");
                 tasks.Add(_userService.RegisterAsync(userId, $"{username}@test.com", username, "secret", "admin"));
             }
             await Task.WhenAll(tasks);
             _logger.LogTrace("Data was initialized.");
+            System.Diagnostics.Debug.WriteLine("Data was initialized.");
         }
     }
 }

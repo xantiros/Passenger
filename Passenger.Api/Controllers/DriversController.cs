@@ -2,6 +2,7 @@
 using Passenger.Infrastructure.Commands;
 using Passenger.Infrastructure.Commands.Drivers;
 using Passenger.Infrastructure.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace Passenger.Api.Controllers
@@ -15,6 +16,7 @@ namespace Passenger.Api.Controllers
             _driverService = driverService;
         }
 
+        //ok
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -23,12 +25,26 @@ namespace Passenger.Api.Controllers
             return Json(drivers);
         }
 
-        [HttpPost("")] // /drivers
-        public async Task<IActionResult> Post([FromBody] CreateDriver createDriver) //kod 201
+        //ok
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> Get(Guid userId)
         {
-            await DispatchAsync(createDriver);
-            //await _userService.RegisterAsync(createUser.Email, createUser.Username, createUser.Password);
-            return Created($"drivers/{createDriver.UserId}", null);
+            var driver = await _driverService.GetAsync(userId);
+            if (driver == null)
+            {
+                return NotFound();
+            }
+
+            return Json(driver);
+        }
+
+        //ok
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]CreateDriver command)
+        {
+            await DispatchAsync(command);
+
+            return Created($"drivers/{command.UserId}", null);
         }
     }
 }

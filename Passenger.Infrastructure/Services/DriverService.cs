@@ -12,18 +12,21 @@ namespace Passenger.Infrastructure.Services
     {
         private readonly IDriverRepository _driverRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IVehicleProvider _vehicleProvider;
         private readonly IMapper _mapper;
 
-        public DriverService(IDriverRepository driverRepository, IUserRepository userRepository, IMapper mapper)
+        public DriverService(IDriverRepository driverRepository, 
+            IVehicleProvider vehicleProvider, IUserRepository userRepository, IMapper mapper)
         {
             _driverRepository = driverRepository;
             _userRepository = userRepository;
+            _vehicleProvider = vehicleProvider;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<DriverDto>> BrowseAsync()
         {
-            var drivers = await _driverRepository.BrowseAsync();
+            var drivers = await _driverRepository.GetAllAsync();
 
             return _mapper.Map<IEnumerable<Driver>, IEnumerable<DriverDto>>(drivers);
         }
@@ -38,7 +41,7 @@ namespace Passenger.Infrastructure.Services
             var driver = await _driverRepository.GetAsync(userId);
             if (driver != null)
             {
-                throw new Exception($"Driver with id: {userId} already exitst.");
+                throw new Exception($"Driver with user id: '{userId}' already exists.");
             }
             driver = new Driver(user);
             await _driverRepository.AddAsync(driver);
@@ -49,22 +52,25 @@ namespace Passenger.Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public async Task<DriverDto> GetAsync(Guid userId)
+        public async Task<DriverDetailsDto> GetAsync(Guid userId)
         {
             var driver = await _driverRepository.GetAsync(userId);
 
-            return _mapper.Map<Driver, DriverDto>(driver);
+            return _mapper.Map<Driver, DriverDetailsDto>(driver);
         }
 
-        public async Task SetVehicleAsync(Guid userId, string brand, string name, int seats)
+        public async Task SetVehicleAsync(Guid userId, string brand, string name)
         {
             var driver = await _driverRepository.GetAsync(userId);
             if (driver == null)
             {
                 throw new Exception($"Driver with id: {userId} was not found.");
             }
-            driver.SetVehicleAsync(brand, name, seats);
-            await _driverRepository.UpdateAsync(driver);
+            //var vehicle = await _vehiclePro
+            var vehicleDetails = await _vehicleProvider.GetAsync(brand, name);
+            var vehicle = Vehicle.Create(vehicleDetails.Brand, vehicleDetails.Name, vehicleDetails.Seats);
+            driver.SetVehicleAsync(vehicle);
+            //await _driverRepository.UpdateAsync(driver);
         }
     }
 }

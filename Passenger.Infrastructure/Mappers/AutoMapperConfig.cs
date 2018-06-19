@@ -10,7 +10,12 @@ namespace Passenger.Infrastructure.Mappers
          => new MapperConfiguration(cfg =>
               {
                   cfg.CreateMap<User, UserDto>(); //konfiguracja w postaci wyrażenia lambda;
+                  cfg.CreateMap<Node, NodeDto>();
+                  cfg.CreateMap<Route, RouteDto>();
+                  cfg.CreateMap<User, UserDto>();
+                  cfg.CreateMap<Vehicle, VehicleDto>();
                   cfg.CreateMap<Driver, DriverDto>();
+                  cfg.CreateMap<Driver, DriverDetailsDto>();
               })
             .CreateMapper(); //wywołanie metody
 

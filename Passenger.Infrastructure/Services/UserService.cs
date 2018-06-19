@@ -28,11 +28,11 @@ namespace Passenger.Infrastructure.Services
             return _mapper.Map<User, UserDto>(user);
         }
 
-        public async Task<IEnumerable<UserDto>> BrowseAsync()
+        public async Task<System.Collections.Generic.IEnumerable<UserDto>> BrowseAsync()
         {
             var users = await _userRepository.BrowseAsync();
 
-            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
+            return _mapper.Map<System.Collections.Generic.IEnumerable<User>, System.Collections.Generic.IEnumerable<UserDto>>(users);
         }
 
         public async Task LoginAsync(string email, string password)
