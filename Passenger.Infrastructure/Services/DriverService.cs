@@ -5,6 +5,7 @@ using AutoMapper;
 using Passenger.Core.Domain;
 using Passenger.Core.Repositories;
 using Passenger.Infrastructure.DTO;
+using Passenger.Infrastructure.Extensions;
 
 namespace Passenger.Infrastructure.Services
 {
@@ -15,13 +16,21 @@ namespace Passenger.Infrastructure.Services
         private readonly IVehicleProvider _vehicleProvider;
         private readonly IMapper _mapper;
 
-        public DriverService(IDriverRepository driverRepository, 
-            IVehicleProvider vehicleProvider, IUserRepository userRepository, IMapper mapper)
+        public DriverService(IDriverRepository driverRepository,
+            IUserRepository userRepository,
+            IVehicleProvider vehicleProvider, IMapper mapper)
         {
             _driverRepository = driverRepository;
             _userRepository = userRepository;
             _vehicleProvider = vehicleProvider;
             _mapper = mapper;
+        }
+
+        public async Task<DriverDetailsDto> GetAsync(Guid userId)
+        {
+            var driver = await _driverRepository.GetAsync(userId);
+
+            return _mapper.Map<Driver, DriverDetailsDto>(driver);
         }
 
         public async Task<IEnumerable<DriverDto>> BrowseAsync()
@@ -33,11 +42,7 @@ namespace Passenger.Infrastructure.Services
 
         public async Task CreateAsync(Guid userId)
         {
-            var user = await _userRepository.GetAsync(userId);
-            if(user == null)
-            {
-                throw new Exception($"User with id: {userId} was not found.");
-            }
+            var user = await _userRepository.GetOrFailAsync(userId);
             var driver = await _driverRepository.GetAsync(userId);
             if (driver != null)
             {
@@ -47,30 +52,18 @@ namespace Passenger.Infrastructure.Services
             await _driverRepository.AddAsync(driver);
         }
 
-        public Task DeleteAsync(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<DriverDetailsDto> GetAsync(Guid userId)
-        {
-            var driver = await _driverRepository.GetAsync(userId);
-
-            return _mapper.Map<Driver, DriverDetailsDto>(driver);
-        }
-
         public async Task SetVehicleAsync(Guid userId, string brand, string name)
         {
-            var driver = await _driverRepository.GetAsync(userId);
-            if (driver == null)
-            {
-                throw new Exception($"Driver with id: {userId} was not found.");
-            }
-            //var vehicle = await _vehiclePro
+            var driver = await _driverRepository.GetOrFailAsync(userId);
             var vehicleDetails = await _vehicleProvider.GetAsync(brand, name);
             var vehicle = Vehicle.Create(vehicleDetails.Brand, vehicleDetails.Name, vehicleDetails.Seats);
             driver.SetVehicleAsync(vehicle);
-            //await _driverRepository.UpdateAsync(driver);
+        }
+
+        public async Task DeleteAsync(Guid userId)
+        {
+            var driver = await _driverRepository.GetOrFailAsync(userId);
+            await _driverRepository.DeleteAsync(driver);
         }
     }
 }

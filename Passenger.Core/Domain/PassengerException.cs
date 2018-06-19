@@ -2,7 +2,7 @@
 
 namespace Passenger.Core.Domain
 {
-    public abstract class PassengerException : Exception
+    public abstract class PassengerException : Exception //ok
     {
         public string Code { get; }
 

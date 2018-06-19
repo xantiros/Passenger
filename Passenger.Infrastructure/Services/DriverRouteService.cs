@@ -14,8 +14,7 @@ namespace Passenger.Infrastructure.Services
         private readonly IRouteManager _routeManager;
         private readonly IMapper _mapper;
 
-        public DriverRouteService(IDriverRepository driverRepository,
-            IUserRepository userRepository,
+        public DriverRouteService(IDriverRepository driverRepository, IUserRepository userRepository,
             IRouteManager routeManager, IMapper mapper)
         {
             _driverRepository = driverRepository;

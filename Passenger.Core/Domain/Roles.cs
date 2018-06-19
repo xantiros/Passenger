@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Passenger.Core.Domain
 {
-    class Roles
+    class Roles //ok
     {
         public static string User => "user";
         public static string Driver => "driver";

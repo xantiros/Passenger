@@ -6,7 +6,7 @@ using Passenger.Infrastructure.Exceptions;
 
 namespace Passenger.Infrastructure.Extensions
 {
-    public static class RepositoryExtensions
+    public static class RepositoryExtensions //ok
     {
         public static async Task<Driver> GetOrFailAsync(this IDriverRepository repository, Guid userId)
         {

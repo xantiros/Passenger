@@ -1,14 +1,7 @@
-﻿namespace Passenger.Infrastructure.Commands.Drivers
+﻿namespace Passenger.Infrastructure.Commands.Drivers.Models
 {
     public class CreateDriver : AuthenticatedCommandBase
     {
         public DriverVehicle Vehicle { get; set; }
-
-        public class DriverVehicle
-        {
-            public string Brand { get; set; }
-            public string Name { get; set; }
-            public int Seats { get; set; }
-        }
     }
 }
