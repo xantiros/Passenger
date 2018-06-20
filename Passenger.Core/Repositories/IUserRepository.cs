@@ -1,7 +1,7 @@
-﻿using Passenger.Core.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Passenger.Core.Domain;
 
 namespace Passenger.Core.Repositories
 {
@@ -9,9 +9,9 @@ namespace Passenger.Core.Repositories
     {
         Task<User> GetAsync(Guid id);
         Task<User> GetAsync(string email);
-        Task<IEnumerable<User>> BrowseAsync();
+        Task<IEnumerable<User>> GetAllAsync();
         Task AddAsync(User user);
+        Task UpdateAsync(User user);
         Task RemoveAsync(Guid id);
-        Task UpdateAsync(Guid id);
     }
 }

@@ -14,6 +14,7 @@ using Passenger.Infrastructure.Settings;
 using Passenger.Api.Framework;
 using NLog.Extensions.Logging;
 using NLog.Web;
+using Passenger.Infrastructure.Mongo;
 
 namespace Passenger.Api
 {
@@ -79,6 +80,7 @@ namespace Passenger.Api
             app.AddNLogWeb();
             env.ConfigureNLog("nlog.config");
 
+            MongoConfigurator.Initialize();
             var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
             if(generalSettings.SeedData)
             {
