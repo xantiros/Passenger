@@ -3,6 +3,7 @@ using Passenger.Infrastructure.Settings;
 using Passenger.Infrastructure.Extensions;
 using Autofac;
 using Passenger.Infrastructure.Mongo;
+using Passenger.Infrastructure.EF;
 
 namespace Passenger.Infrastructure.IoC.Modules
 {
@@ -22,6 +23,8 @@ namespace Passenger.Infrastructure.IoC.Modules
             builder.RegisterInstance(_configuration.GetSettings<JwtSettings>())
                 .SingleInstance();
             builder.RegisterInstance(_configuration.GetSettings<MongoSettings>())
+                .SingleInstance();
+            builder.RegisterInstance(_configuration.GetSettings<SqlSettings>())
                 .SingleInstance();
         }
     }

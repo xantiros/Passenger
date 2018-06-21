@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-//using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Passenger.Core.Domain;
 using Passenger.Core.Repositories;
-//using Passenger.Infrastructure.EF;
+using Passenger.Infrastructure.EF;
 
 namespace Passenger.Infrastructure.Repositories
 {
-    public class UserRepository //: IUserRepository, ISqlRepository
+    public class UserRepository : IUserRepository, ISqlRepository
     {
-        /*
+        
         private readonly PassengerContext _context;
 
         public UserRepository(PassengerContext context)
@@ -45,6 +44,6 @@ namespace Passenger.Infrastructure.Repositories
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
-        */
+        
     }
 }

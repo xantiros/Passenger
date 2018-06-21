@@ -25,7 +25,7 @@ namespace Passenger.Infrastructure.Repositories
             await Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<User>> BrowseAsync()
+        public async Task<IEnumerable<User>> GetAllAsync()
             => await Task.FromResult(_users);
 
         public async Task RemoveAsync(Guid id)
@@ -35,7 +35,7 @@ namespace Passenger.Infrastructure.Repositories
             await Task.CompletedTask;
         }
 
-        public async Task UpdateAsync(Guid id)
+        public async Task UpdateAsync(User user)
         {
             await Task.CompletedTask;
         }

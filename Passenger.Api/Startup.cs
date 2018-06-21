@@ -15,6 +15,7 @@ using Passenger.Api.Framework;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Passenger.Infrastructure.Mongo;
+using Passenger.Infrastructure.EF;
 
 namespace Passenger.Api
 {
@@ -44,15 +45,21 @@ namespace Passenger.Api
         {
             // services.AddScoped<IUserRepository, InMemoryUserRepository>();
             // services.AddScoped<IUserService, UserService>();
+            services.AddMemoryCache();
             services.AddMvc()
                 .AddJsonOptions(x=> x.SerializerSettings.Formatting = Formatting.Indented);
+
+            services.AddEntityFrameworkSqlServer()
+                    .AddEntityFrameworkInMemoryDatabase()
+                    .AddDbContext<PassengerContext>();
+
             var builder = new ContainerBuilder();
             builder.Populate(services);
             builder.RegisterModule(new ContainerModule(Configuration));
             ApplicationContainer = builder.Build();
 
-            services.AddAuthorization(x => x.AddPolicy("admin", p => p.RequireRole("admin")));
-            services.AddMemoryCache();
+            //services.AddAuthorization(x => x.AddPolicy("admin", p => p.RequireRole("admin")));
+            //services.AddMemoryCache();
 
             services.AddAuthentication()
                 .AddJwtBearer();
@@ -80,7 +87,7 @@ namespace Passenger.Api
             app.AddNLogWeb();
             env.ConfigureNLog("nlog.config");
 
-            MongoConfigurator.Initialize();
+            //MongoConfigurator.Initialize();
             var generalSettings = app.ApplicationServices.GetService<GeneralSettings>();
             if(generalSettings.SeedData)
             {

@@ -43,9 +43,10 @@ namespace Passenger.Infrastructure.Services
                 await _userService.RegisterAsync(userId, $"user{i}@test.com",
                                                  username, "secret", "user");
                 await _driverService.CreateAsync(userId);
-                await _driverService.SetVehicleAsync(userId, "BMW", "i8");
-                _logger.LogTrace($"Created a new driver for: '{username}'.");
-                System.Diagnostics.Debug.WriteLine($"Created a new driver for: '{username}'.");
+                //tutaj wywala błąd 
+                //await _driverService.SetVehicleAsync(userId, "BMW", "i8");
+                //_logger.LogTrace($"Created a new driver for: '{username}'.");
+                //System.Diagnostics.Debug.WriteLine($"Created a new driver for: '{username}'.");
 
                 await _driverRouteService.AddAsync(userId, "Default route",
                     1, 1, 2, 2);
@@ -62,7 +63,7 @@ namespace Passenger.Infrastructure.Services
                 await _userService.RegisterAsync(userId, $"admin{i}@test.com",
                     username, "secret", "admin");
             }
-            await Task.WhenAll(tasks);
+            //await Task.WhenAll(tasks);
             _logger.LogTrace("Data was initialized.");
             System.Diagnostics.Debug.WriteLine("Data was initialized.");
         }

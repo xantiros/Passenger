@@ -20,6 +20,7 @@ namespace Passenger.Infrastructure.IoC
                 .SingleInstance(); //konfiguracja, jedna instancja
             builder.RegisterModule<CommandModule>();
             builder.RegisterModule<RepositoryModule>();
+            builder.RegisterModule<SqlModule>();
             builder.RegisterModule<ServiceModulle>();
             builder.RegisterModule(new SettingsModule(_configuration));
         }

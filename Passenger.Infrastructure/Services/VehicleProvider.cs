@@ -59,16 +59,17 @@ namespace Passenger.Infrastructure.Services
 
         public async Task<VehicleDto> GetAsync(string brand, string name)
         {
-            if(!availibleVehicles.ContainsKey(brand))
+            if (!availibleVehicles.ContainsKey(brand))
             {
-                throw new Exception($"Vehicle brand: '{brand} is not available.'");
+                throw new Exception($"Vehicle brand: '{brand}' is not available.");
             }
             var vehicles = availibleVehicles[brand];
             var vehicle = vehicles.SingleOrDefault(x => x.Name == name);
-            if(vehicle == null)
+            if (vehicle == null)
             {
-                throw new Exception($"Vehicle: '{name}' for brand '{brand}' is not available.");
+                throw new Exception($"Vehicle: '{name}' for brand: '{brand}' is not available.");
             }
+
             return await Task.FromResult(new VehicleDto
             {
                 Brand = brand,
