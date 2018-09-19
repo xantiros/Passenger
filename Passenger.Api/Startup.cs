@@ -81,8 +81,8 @@ namespace Passenger.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, IApplicationLifetime applicationLifetime)
         {
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
             loggerFactory.AddNLog();
             app.AddNLogWeb();
             env.ConfigureNLog("nlog.config");

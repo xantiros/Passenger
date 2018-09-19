@@ -16,8 +16,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Tests", "Passenge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passenger.Tests.EndToEnd", "Passenger.Tests.EndToEnd\Passenger.Tests.EndToEnd.csproj", "{83B43A1D-EF29-43D5-BF3B-01963C456559}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Passenger.Database", "Passenger.Database\Passenger.Database.sqlproj", "{F2225058-344A-47E6-8093-4DB288B53202}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,12 +42,6 @@ Global
 		{83B43A1D-EF29-43D5-BF3B-01963C456559}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83B43A1D-EF29-43D5-BF3B-01963C456559}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83B43A1D-EF29-43D5-BF3B-01963C456559}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2225058-344A-47E6-8093-4DB288B53202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2225058-344A-47E6-8093-4DB288B53202}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2225058-344A-47E6-8093-4DB288B53202}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{F2225058-344A-47E6-8093-4DB288B53202}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2225058-344A-47E6-8093-4DB288B53202}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2225058-344A-47E6-8093-4DB288B53202}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

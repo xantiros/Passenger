@@ -46,7 +46,7 @@ namespace Passenger.Infrastructure.Services
                 //tutaj wywala błąd 
                 //await _driverService.SetVehicleAsync(userId, "BMW", "i8");
                 //_logger.LogTrace($"Created a new driver for: '{username}'.");
-                //System.Diagnostics.Debug.WriteLine($"Created a new driver for: '{username}'.");
+                System.Diagnostics.Debug.WriteLine($"Created a new driver for: '{username}'.");
 
                 await _driverRouteService.AddAsync(userId, "Default route",
                     1, 1, 2, 2);
